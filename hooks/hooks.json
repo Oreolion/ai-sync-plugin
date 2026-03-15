@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "prompt",
+        "prompt": "Check if `.ai-sync/HANDOFF.md` exists in the project root. If it does, read it silently and keep the context in mind — the project uses cross-agent synchronization. Do NOT print the handoff contents unless the user asks. Just be aware of the current state and continue accordingly."
+      }
+    ],
+    "Stop": [
+      {
+        "type": "prompt",
+        "prompt": "If `.ai-sync/HANDOFF.md` exists and you made meaningful changes during this session, remind the user: 'Run `/handoff` to save state for other AI agents before switching tools.' Keep this reminder to one short line."
+      }
+    ]
+  }
+}
