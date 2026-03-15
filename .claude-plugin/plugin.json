@@ -1,12 +1,28 @@
 {
   "name": "ai-sync",
-  "version": "1.0.0",
-  "description": "Cross-platform AI agent synchronization — seamless handoff between Claude Code, Codex, Cursor, Aider, OpenCode, and other AI coding tools",
+  "version": "1.1.0",
+  "description": "Cross-platform AI agent synchronization — seamless handoff between Claude Code, Codex, Cursor, Aider, Cline, Windsurf, OpenCode, GitHub Copilot, and Continue.dev",
   "author": {
     "name": "Oreolion",
     "url": "https://github.com/Oreolion"
   },
   "repository": "https://github.com/Oreolion/ai-sync",
+  "homepage": "https://github.com/Oreolion/ai-sync#readme",
   "license": "MIT",
-  "keywords": ["handoff", "sync", "multi-agent", "cross-platform", "codex", "cursor", "aider"]
+  "keywords": [
+    "handoff",
+    "sync",
+    "multi-agent",
+    "cross-platform",
+    "codex",
+    "cursor",
+    "aider",
+    "cline",
+    "windsurf",
+    "copilot",
+    "opencode",
+    "ai-agent",
+    "developer-productivity"
+  ],
+  "categories": ["Developer Productivity"]
 }

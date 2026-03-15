@@ -1,6 +1,6 @@
 ---
 name: ai-sync-protocol
-description: This skill should be used when the project has a `.ai-sync/` directory, when the user mentions "handoff", "switch agents", "sync state", "continue where left off", "cross-platform agents", "rate limit switch", "agent synchronization", or when starting work on a project with existing `.ai-sync/HANDOFF.md`. Provides the cross-platform AI agent synchronization protocol.
+description: Cross-platform AI agent synchronization protocol. Use when the project has a `.ai-sync/` directory, when the user mentions "handoff", "switch agents", "sync state", "continue where left off", "cross-platform agents", "rate limit switch", or "agent synchronization". Provides seamless handoff between AI coding agents.
 version: 1.0.0
 ---
 
@@ -69,19 +69,8 @@ Markdown checklist format with phases and tasks:
 
 ## Conflict Detection
 
-When resuming work (`/sync-resume`), the protocol records the current git state of HANDOFF.md. When handing off (`/handoff`), it compares against this baseline. If another agent committed changes to HANDOFF.md during the session, the user is warned before any overwrite occurs.
+When resuming work, check if HANDOFF.md was modified by another agent since the last recorded timestamp. If so, warn before overwriting.
 
-## Auto-Update PROGRESS.md
+## Auto-Progress Tracking
 
-During `/handoff`, the protocol cross-references `git diff --name-only` against task descriptions in PLAN.md and PROGRESS.md. If a changed file matches a task's deliverable (e.g., task says "Create `src/auth.ts`" and that file was modified), the task is automatically checked off.
-
-## Slash Commands
-
-- `/sync-init` — Bootstrap `.ai-sync/` in a new project
-- `/handoff` — Capture state before switching agents (with conflict detection)
-- `/sync-status` — Show current sync state and progress
-- `/sync-resume` — Resume work from last handoff (load context + begin)
-- `/sync-diff` — Show what changed since the last handoff
-- `/sync-adapter <tool>` — Generate adapter file for a specific AI tool
-- `/sync-transfer` — Import session context from another tool via `continues`
-- `/sync-hooks install|remove` — Install/remove git hooks for auto-save on commit
+During handoff, cross-reference changed files against task descriptions. If a file referenced in a task was modified, auto-check that task in PROGRESS.md.

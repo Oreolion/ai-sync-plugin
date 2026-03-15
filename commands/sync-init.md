@@ -44,10 +44,15 @@ Optional: $ARGUMENTS (can specify a plan file path to link)
    - Mark completed work based on existing code
 
 7. **Create adapter files** (only if they don't already exist):
-   - `AGENTS.md` — for Codex and generic AI agents
+   - `AGENTS.md` — for Codex, OpenCode, and generic AI agents
    - `.cursorrules` — for Cursor
    - `.clinerules` — for Cline
-   Add cross-agent sync directive to each, plus project conventions from CLAUDE.md
+   - `.windsurfrules` — for Windsurf
+   - `.aider.conf.yml` — for Aider (YAML config with `read:` pointing to .ai-sync/ files)
+   - `.github/copilot-instructions.md` — for GitHub Copilot
+   - `.continuerules` — for Continue.dev
+   Add cross-agent sync directive to each, plus project conventions from CLAUDE.md.
+   Use the adapter formats defined in `/sync-adapter` for consistency.
 
 8. **Update CLAUDE.md** — Add a "Cross-Agent Synchronization" section if not present:
    ```markdown

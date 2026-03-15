@@ -1,0 +1,82 @@
+{
+  "name": "ai-sync",
+  "displayName": "AI Sync — Cross-Platform Agent Handoff",
+  "description": "Seamless handoff between AI coding agents",
+  "version": "1.0.0",
+  "publisher": "oreolion",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:.ai-sync/HANDOFF.md"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ai-sync",
+          "title": "AI Sync",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "ai-sync": [
+        {
+          "id": "aiSync.status",
+          "name": "Sync Status"
+        },
+        {
+          "id": "aiSync.sessions",
+          "name": "Session History"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aiSync.handoff",
+        "title": "AI Sync: Handoff"
+      },
+      {
+        "command": "aiSync.resume",
+        "title": "AI Sync: Resume"
+      },
+      {
+        "command": "aiSync.refresh",
+        "title": "AI Sync: Refresh Status"
+      },
+      {
+        "command": "aiSync.openHandoff",
+        "title": "AI Sync: Open HANDOFF.md"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "aiSync.refresh",
+          "when": "view == aiSync.status",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "glob": "^10.3.10",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.37",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.3"
+  }
+}

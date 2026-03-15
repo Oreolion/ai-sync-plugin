@@ -1,0 +1,53 @@
+{
+  "name": "@ai-sync/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server exposing .ai-sync/ protocol as structured tools for cross-platform AI agent synchronization",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "ai-sync-mcp": "./bin/ai-sync-mcp.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "ai-sync",
+    "model-context-protocol",
+    "agent",
+    "handoff",
+    "synchronization",
+    "claude",
+    "cursor",
+    "codex"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oreolion/ai-sync-plugin.git",
+    "directory": "packages/mcp-server"
+  },
+  "author": "oreolion",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "glob": "^10.3.12",
+    "gray-matter": "^4.0.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
+  }
+}

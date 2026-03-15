@@ -1,0 +1,59 @@
+{
+  "name": "@oreolion/ai-sync",
+  "version": "1.0.0",
+  "description": "Cross-platform AI agent synchronization CLI — seamless handoff between Claude Code, Cursor, Codex, Aider, Cline, Windsurf, and more",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "ai-sync": "./bin/ai-sync.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./protocol": "./dist/protocol/index.js",
+    "./protocol/reader": "./dist/protocol/reader.js",
+    "./protocol/writer": "./dist/protocol/writer.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "sync",
+    "agent",
+    "handoff",
+    "claude",
+    "cursor",
+    "codex",
+    "aider",
+    "cline",
+    "windsurf",
+    "copilot",
+    "cross-platform"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oreolion/ai-sync-plugin.git",
+    "directory": "packages/cli"
+  },
+  "author": "oreolion",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "glob": "^10.3.12",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
+  }
+}

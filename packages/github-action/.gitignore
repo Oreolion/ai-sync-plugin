@@ -1,0 +1,4 @@
+node_modules/
+
+# Keep dist/ tracked — GitHub Actions require the compiled bundle
+# Do NOT add dist/ here

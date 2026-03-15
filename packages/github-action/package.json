@@ -1,0 +1,30 @@
+{
+  "name": "@ai-sync/github-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action to auto-update .ai-sync/ handoff state on PR creation and updates",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc && ncc build dist/index.js -o dist --source-map",
+    "dev": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oreolion/ai-sync-plugin.git",
+    "directory": "packages/github-action"
+  },
+  "author": "Oreolion",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@actions/exec": "^1.1.1",
+    "gray-matter": "^4.0.3",
+    "glob": "^10.3.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@vercel/ncc": "^0.38.1",
+    "@types/node": "^20.11.0"
+  }
+}

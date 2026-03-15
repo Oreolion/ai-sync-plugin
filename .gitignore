@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (for test tooling only)
+node_modules/
+package-lock.json
+
+# Test artifacts
+test-output/
+tmp/
+
+# Session logs generated in target projects (not this repo)
+.ai-sync/sessions/

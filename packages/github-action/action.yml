@@ -1,0 +1,24 @@
+name: 'AI Sync'
+description: 'Auto-update .ai-sync/ handoff state on PR creation and updates'
+author: 'Oreolion'
+branding:
+  icon: 'refresh-cw'
+  color: 'blue'
+
+inputs:
+  sync-dir:
+    description: 'Path to .ai-sync/ directory'
+    required: false
+    default: '.ai-sync'
+  auto-progress:
+    description: 'Auto-check PROGRESS.md tasks based on changed files'
+    required: false
+    default: 'true'
+  comment:
+    description: 'Post PR comment with sync status summary'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
