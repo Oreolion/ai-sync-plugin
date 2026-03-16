@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(CLI=\"/c/Users/HP 240 G9/Desktop/nextJSApps/ai-sync-plugin/packages/cli/bin/ai-sync.js\")",
+      "Bash(TMPDIR=\"/tmp/tmp.K5Mb7q9CtP\")",
+      "Read(//c/Users/HP 240 G9/Desktop/nextJSApps/ai-sync-plugin/**)"
+    ]
+  }
+}
