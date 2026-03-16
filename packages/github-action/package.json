@@ -1,5 +1,5 @@
 {
-  "name": "@ai-sync/github-action",
+  "name": "@oreolion/ai-sync-action",
   "version": "1.0.0",
   "private": true,
   "description": "GitHub Action to auto-update .ai-sync/ handoff state on PR creation and updates",

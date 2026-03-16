@@ -1,5 +1,5 @@
 {
-  "name": "@ai-sync/mcp-server",
+  "name": "@oreolion/ai-sync-mcp",
   "version": "1.0.0",
   "description": "MCP server exposing .ai-sync/ protocol as structured tools for cross-platform AI agent synchronization",
   "type": "module",

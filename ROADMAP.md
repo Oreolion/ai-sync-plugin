@@ -80,7 +80,7 @@ A unified cross-platform AI agent synchronization infrastructure that combines t
 Some tools (Cursor, Continue.dev, Claude Desktop) support MCP natively. An MCP server provides richer integration than file-based adapters.
 
 ### Plan
-- [x] `@ai-sync/mcp-server` — MCP server exposing:
+- [x] `@oreolion/ai-sync-mcp` — MCP server exposing:
   - `sync/getHandoff` — returns current HANDOFF.md as structured data
   - `sync/getProgress` — returns PROGRESS.md as checklist with completion %
   - `sync/getPlan` — returns PLAN.md

@@ -1,4 +1,4 @@
-# @ai-sync/remote-sync
+# @oreolion/ai-sync-remote
 
 Cloudflare Workers API for ai-sync team handoff synchronization. Uses Hono for routing and Cloudflare D1 (SQLite) for persistence.
 

@@ -1,5 +1,5 @@
 /**
- * @ai-sync/mcp-server — MCP server exposing .ai-sync/ protocol as structured tools.
+ * @oreolion/ai-sync-mcp — MCP server exposing .ai-sync/ protocol as structured tools.
  *
  * Provides 6 tools for reading, writing, and managing the .ai-sync/ protocol files
  * (HANDOFF.md, PROGRESS.md, PLAN.md, and session logs) over the Model Context Protocol.

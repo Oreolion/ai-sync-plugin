@@ -1,5 +1,5 @@
 {
-  "name": "@ai-sync/remote-sync",
+  "name": "@oreolion/ai-sync-remote",
   "version": "0.1.0",
   "private": true,
   "description": "Cloudflare Workers API for ai-sync team handoff synchronization",

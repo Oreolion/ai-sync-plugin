@@ -28,4 +28,4 @@ version: 1.0.0
 
 - [ai-sync plugin](https://github.com/Oreolion/ai-sync) — Full Claude Code plugin with slash commands
 - [@oreolion/ai-sync](https://www.npmjs.com/package/@oreolion/ai-sync) — Standalone CLI
-- [@ai-sync/mcp-server](https://www.npmjs.com/package/@ai-sync/mcp-server) — MCP server
+- [@oreolion/ai-sync-mcp](https://www.npmjs.com/package/@oreolion/ai-sync-mcp) — MCP server

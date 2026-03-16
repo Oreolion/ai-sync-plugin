@@ -1,17 +1,17 @@
-# @ai-sync/mcp-server
+# @oreolion/ai-sync-mcp
 
 MCP (Model Context Protocol) server that exposes the `.ai-sync/` protocol as structured tools. Enables AI agents in MCP-compatible clients (Claude Desktop, Cursor, Continue.dev) to read and write handoff state, track progress, and manage session history programmatically.
 
 ## Installation
 
 ```bash
-npm install -g @ai-sync/mcp-server
+npm install -g @oreolion/ai-sync-mcp
 ```
 
 Or run directly with npx:
 
 ```bash
-npx @ai-sync/mcp-server
+npx @oreolion/ai-sync-mcp
 ```
 
 ## MCP Configuration
@@ -27,7 +27,7 @@ Add to `claude_desktop_config.json`:
   "mcpServers": {
     "ai-sync": {
       "command": "npx",
-      "args": ["@ai-sync/mcp-server"]
+      "args": ["@oreolion/ai-sync-mcp"]
     }
   }
 }
@@ -42,7 +42,7 @@ Add to `.cursor/mcp.json` in your project:
   "mcpServers": {
     "ai-sync": {
       "command": "npx",
-      "args": ["@ai-sync/mcp-server"]
+      "args": ["@oreolion/ai-sync-mcp"]
     }
   }
 }
@@ -60,7 +60,7 @@ Add to your Continue configuration:
         "transport": {
           "type": "stdio",
           "command": "npx",
-          "args": ["@ai-sync/mcp-server"]
+          "args": ["@oreolion/ai-sync-mcp"]
         }
       }
     ]

@@ -24,7 +24,7 @@ ai-sync-plugin/
 │   └── hooks.json             # Session start/stop hooks
 ├── packages/
 │   ├── cli/                   # @oreolion/ai-sync npm package (standalone CLI)
-│   └── mcp-server/            # @ai-sync/mcp-server (MCP server)
+│   └── mcp-server/            # @oreolion/ai-sync-mcp (MCP server)
 ├── tests/
 │   └── validate-plugin.sh     # Plugin structure validation
 ├── README.md

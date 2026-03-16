@@ -168,11 +168,11 @@ Beyond the Claude Code plugin, ai-sync ships as standalone tools:
 | Package | Description | Install |
 |---------|-------------|---------|
 | `@oreolion/ai-sync` | CLI tool — works with any AI agent | `npx @oreolion/ai-sync init` |
-| `@ai-sync/mcp-server` | MCP server — structured tool access for MCP-native tools | See `packages/mcp-server/` |
+| `@oreolion/ai-sync-mcp` | MCP server — structured tool access for MCP-native tools | See `packages/mcp-server/` |
 | `ai-sync` (VS Code) | VS Code extension with sidebar status + one-click handoff | See `packages/vscode-extension/` |
 | `ai-sync-action` | GitHub Action — auto-update `.ai-sync/` on PRs | See `packages/github-action/` |
-| `@ai-sync/remote-sync` | Cloudflare Workers API for team handoff | See `packages/remote-sync/` |
-| `@ai-sync/dashboard` | Next.js dashboard for sync analytics | See `packages/dashboard/` |
+| `@oreolion/ai-sync-remote` | Cloudflare Workers API for team handoff | See `packages/remote-sync/` |
+| `@oreolion/ai-sync-dashboard` | Next.js dashboard for sync analytics | See `packages/dashboard/` |
 
 ## Testing
 

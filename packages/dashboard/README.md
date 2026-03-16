@@ -1,4 +1,4 @@
-# @ai-sync/dashboard
+# @oreolion/ai-sync-dashboard
 
 Next.js 14 dashboard for ai-sync team handoff analytics. Displays project status, handoff history, progress tracking, and session timelines.
 

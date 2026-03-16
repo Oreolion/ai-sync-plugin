@@ -1,5 +1,5 @@
 {
-  "name": "@ai-sync/dashboard",
+  "name": "@oreolion/ai-sync-dashboard",
   "version": "0.1.0",
   "private": true,
   "description": "Next.js dashboard for ai-sync team handoff analytics",
