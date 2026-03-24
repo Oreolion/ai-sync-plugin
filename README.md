@@ -1,178 +1,290 @@
 # ai-sync
 
-**Cross-platform AI agent synchronization — seamless handoff between Claude Code, Codex, Cursor, Aider, and more.**
+**Stop losing context when you switch AI coding tools.**
 
+[![npm](https://img.shields.io/npm/v/@oreolion/ai-sync)](https://www.npmjs.com/package/@oreolion/ai-sync)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Plugin: Claude Code](https://img.shields.io/badge/Plugin-Claude%20Code-blueviolet)](https://claude.ai/code)
 
+Every AI coding tool (Claude Code, Cursor, Codex, Aider, Cline, Windsurf, Copilot) keeps its own context. When you switch — because of rate limits, context exhaustion, or wanting a different model — all context is lost. The new agent doesn't know what was built, what's next, or whether the build is clean.
+
+**ai-sync** fixes this. It creates a shared `.ai-sync/` directory in your project that any AI agent can read and write. One agent saves state, the next picks up exactly where it left off.
+
 ---
 
-## The Problem
+## Quick Start (2 minutes)
 
-Every AI coding tool has its own context system (`CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.clinerules`). None of them share state. When you switch tools:
-
-- All context is lost
-- The new agent doesn't know what was done
-- Plans drift, work gets repeated, patterns break
-
-## The Solution
-
-A **tool-agnostic state directory** (`.ai-sync/`) at your project root. Any AI agent reads from and writes to the same files using a standardized protocol.
-
-```
-.ai-sync/
-├── HANDOFF.md      # Current state — THE KEY FILE
-├── PLAN.md         # Implementation plan
-├── PROGRESS.md     # Task completion tracking
-└── sessions/       # Session audit trail
-```
-
-Plus **thin adapter files** that point each tool to `.ai-sync/`:
-
-| Adapter File | Tools |
-|---|---|
-| `AGENTS.md` | Codex, OpenCode, Continue.dev |
-| `.cursorrules` | Cursor |
-| `.clinerules` | Cline |
-| `.windsurfrules` | Windsurf |
-| `.aider.conf.yml` | Aider |
-| `.github/copilot-instructions.md` | GitHub Copilot |
-| `.continuerules` | Continue.dev |
-| `CLAUDE.md` | Claude Code |
-
-## Installation
-
-### As a Claude Code Plugin
+### Option A: CLI (works with any AI tool)
 
 ```bash
+# Install globally
+npm install -g @oreolion/ai-sync
+
+# Go to your project
+cd your-project
+
+# Initialize — creates .ai-sync/ and adapter files for all tools
+ai-sync init
+
+# ... do work with any AI tool ...
+
+# Save state before switching
+ai-sync handoff
+
+# Switch to a different tool — it reads .ai-sync/ automatically
+
+# Check status anytime
+ai-sync status
+```
+
+### Option B: Claude Code Plugin (adds /slash commands)
+
+```bash
+# Install the plugin
 claude plugin add Oreolion/ai-sync
+
+# Now inside Claude Code, you get slash commands:
+# /sync-init    — bootstrap .ai-sync/
+# /handoff      — save state before switching
+# /sync-resume  — load context and continue
+# /sync-status  — view progress
 ```
 
-### For Development
+### Option C: Use both (recommended)
+
+Install the CLI globally **and** add the Claude Code plugin. Use `/slash commands` when inside Claude Code, use `ai-sync` from the terminal when working with other tools.
 
 ```bash
-git clone https://github.com/Oreolion/ai-sync.git
-cd ai-sync
-claude --plugin-dir .
+npm install -g @oreolion/ai-sync       # CLI for any tool
+claude plugin add Oreolion/ai-sync      # Plugin for Claude Code
 ```
 
-### Manual Setup (Any Tool)
+---
 
-Create `.ai-sync/` in your project and populate the files following the protocol defined in [`skills/ai-sync-protocol/SKILL.md`](skills/ai-sync-protocol/SKILL.md).
+## Important: CLI vs Plugin
 
-## Commands
+These are **two separate things** that work together:
+
+| | CLI (`@oreolion/ai-sync`) | Claude Code Plugin |
+|---|---|---|
+| **Install** | `npm install -g @oreolion/ai-sync` | `claude plugin add Oreolion/ai-sync` |
+| **How to use** | `ai-sync init`, `ai-sync handoff` | `/sync-init`, `/handoff` |
+| **Works with** | Any AI tool, any terminal | Claude Code only |
+| **Auto-loads context** | No | Yes (on session start) |
+| **Reminds you to save** | No | Yes (on session stop) |
+| **Slash commands** | No | Yes |
+
+**Common question**: "I ran `npm install -g @oreolion/ai-sync` but I don't see any commands in Claude Code."
+
+That's expected. The npm package installs a terminal CLI (`ai-sync`). Claude Code doesn't scan your global npm packages for plugins. To get slash commands inside Claude Code, you also need `claude plugin add Oreolion/ai-sync`.
+
+---
+
+## What Gets Created
+
+When you run `ai-sync init` (or `/sync-init`), your project gets:
+
+```
+your-project/
+├── .ai-sync/
+│   ├── HANDOFF.md      # Current state — what was done, what's next, blockers
+│   ├── PLAN.md         # Implementation plan (linked or created)
+│   ├── PROGRESS.md     # Task checklist: [x] done, [ ] pending
+│   └── sessions/       # One log file per agent session
+├── AGENTS.md           # Adapter for Codex, OpenCode, Continue.dev
+├── .cursorrules        # Adapter for Cursor
+├── .clinerules         # Adapter for Cline
+├── .windsurfrules      # Adapter for Windsurf
+├── .aider.conf.yml     # Adapter for Aider
+├── .continuerules      # Adapter for Continue.dev
+└── .github/
+    └── copilot-instructions.md  # Adapter for GitHub Copilot
+```
+
+**Adapter files** are thin pointers. Each one simply tells its AI tool: "Read `.ai-sync/HANDOFF.md` for context before starting work." This is how every tool automatically picks up where the last one left off — no manual copy-paste needed.
+
+---
+
+## Workflow Examples
+
+### Example 1: Claude Code hits rate limit, switch to Cursor
+
+```
+# In Claude Code:
+You: /handoff
+# Claude saves: what it built, what's next, build status, files changed
+
+# Open same project in Cursor
+# Cursor reads .cursorrules → reads .ai-sync/HANDOFF.md → knows everything
+# Cursor continues the work
+
+# When done in Cursor, run from terminal:
+ai-sync handoff
+
+# Back in Claude Code:
+You: /sync-resume
+# Claude loads the full context and continues from where Cursor stopped
+```
+
+### Example 2: Split work across Codex and Claude Code
+
+```bash
+# Terminal — initialize sync in your project
+ai-sync init
+
+# Work with Codex (reads AGENTS.md automatically)
+codex "implement the auth module per the plan"
+
+# Codex finishes or you want to switch
+ai-sync handoff
+
+# Continue in Claude Code
+claude
+> /sync-resume     # loads everything Codex did
+> (continue work)
+> /handoff         # save before stopping
+```
+
+### Example 3: Just checking where things stand
+
+```bash
+ai-sync status
+# Shows: current phase, completion %, what's done, what's next, last agent, blockers
+```
+
+---
+
+## All Commands
+
+### CLI Commands (terminal)
 
 | Command | Description |
 |---------|-------------|
-| `/sync-init` | Bootstrap `.ai-sync/` in the current project with adapters for all supported tools |
-| `/handoff` | Capture state before switching agents (with conflict detection + auto-progress update) |
-| `/sync-status` | Show current progress, next steps, and session history |
-| `/sync-resume` | Resume from last handoff — load full context, detect conflicts, and continue |
-| `/sync-diff` | Show all changes (commits, uncommitted, untracked) since the last handoff |
-| `/sync-adapter <tool>` | Generate an adapter file for a specific AI tool |
-| `/sync-transfer` | Import session context from another tool via `continues` |
-| `/sync-hooks install\|remove` | Install/remove git hooks for auto-save on commit |
+| `ai-sync init` | Create `.ai-sync/` + adapter files for all supported tools |
+| `ai-sync handoff` | Save state before switching agents (conflict detection + auto-progress) |
+| `ai-sync status` | Show progress with completion bar |
+| `ai-sync resume [tool]` | Generate resume prompt for the target tool |
+| `ai-sync diff` | Show changes since last handoff |
+| `ai-sync adapter <tool>` | Generate adapter file for a specific tool |
+| `ai-sync transfer` | Import session context via `continues` |
+| `ai-sync hooks install` | Install git hooks for auto-save on commit |
+| `ai-sync hooks remove` | Remove git hooks |
 
-## How It Works
+### Plugin Commands (inside Claude Code)
 
-### Starting Work (Any Agent)
+| Command | Description |
+|---------|-------------|
+| `/sync-init` | Bootstrap `.ai-sync/` in the current project |
+| `/handoff` | Save state before switching agents (with conflict detection) |
+| `/sync-status` | Show current progress, next steps, session history |
+| `/sync-resume` | Load full context from last handoff and continue |
+| `/sync-diff` | Show all changes since last handoff |
+| `/sync-adapter <tool>` | Generate adapter file for a specific tool |
+| `/sync-transfer` | Import session context from another tool |
+| `/sync-hooks install\|remove` | Install/remove git hooks |
 
-1. Agent reads `.ai-sync/HANDOFF.md` — knows what happened, what's next
-2. Agent reads `.ai-sync/PROGRESS.md` — knows what's done
-3. Agent follows `.ai-sync/PLAN.md` — no deviation
+---
 
-### During Work
+## How It Works Under the Hood
 
-- Agent checks off completed tasks in `PROGRESS.md`
-- Agent documents blockers immediately in `HANDOFF.md`
+### When an agent starts work
 
-### Stopping Work (Any Agent)
+1. Reads `.ai-sync/HANDOFF.md` — knows what happened and what's next
+2. Reads `.ai-sync/PROGRESS.md` — knows which tasks are done vs pending
+3. Reads `.ai-sync/PLAN.md` — follows the implementation plan
 
-1. Conflict detection — checks if another agent modified `HANDOFF.md` since last read
-2. Auto-update — cross-references changed files against plan tasks to auto-check `PROGRESS.md`
-3. Agent writes `HANDOFF.md` with completed work, specific next steps, and build status
-4. Agent logs session in `sessions/`
+### While working
 
-### Switching Tools
+- Checks off completed tasks in `PROGRESS.md`
+- Documents blockers in `HANDOFF.md` immediately
 
-```
-Claude Code → hits rate limit → /handoff → switch to Codex → reads HANDOFF.md → continues
-```
+### When stopping
+
+1. **Conflict detection** — checks if another agent modified `HANDOFF.md` during the session
+2. **Auto-progress** — cross-references changed files against plan tasks and auto-checks `PROGRESS.md`
+3. **State capture** — writes `HANDOFF.md` with completed work, specific next steps, and build status
+4. **Session log** — creates a timestamped log in `.ai-sync/sessions/`
+
+### The five rules all agents follow
+
+1. **Follow the plan** — No unplanned features or refactors
+2. **Don't repeat work** — Check `PROGRESS.md` before starting anything
+3. **Be specific in handoffs** — "Create `api/auth.ts` with OAuth flow" not "Continue auth work"
+4. **Run verification** — Build and typecheck before stopping
+5. **Document decisions** — The next agent has zero context about why you made choices
+
+---
+
+## Supported Tools
+
+| Tool | Adapter | How it picks up context |
+|------|---------|------------------------|
+| **Claude Code** | Plugin + CLAUDE.md | Full integration: slash commands, auto-load on start, reminder on stop |
+| **Cursor** | `.cursorrules` | Reads `.ai-sync/HANDOFF.md` via rules file |
+| **OpenAI Codex** | `AGENTS.md` | Reads `.ai-sync/HANDOFF.md` via agents file |
+| **Cline** | `.clinerules` | Reads `.ai-sync/HANDOFF.md` via rules file |
+| **Windsurf** | `.windsurfrules` | Reads `.ai-sync/HANDOFF.md` via rules file |
+| **Aider** | `.aider.conf.yml` | Reads `.ai-sync/HANDOFF.md` via config |
+| **OpenCode** | `AGENTS.md` | Reads `.ai-sync/HANDOFF.md` via agents file |
+| **Continue.dev** | `.continuerules` | Reads `.ai-sync/HANDOFF.md` via rules file |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Reads `.ai-sync/HANDOFF.md` via instructions |
+
+---
 
 ## Key Features
 
-- **Conflict detection** — Warns if `HANDOFF.md` was modified by another agent during your session
-- **Auto-progress tracking** — Automatically checks off tasks when their deliverable files are modified
-- **Build-state awareness** — Records whether the last agent left a clean build
-- **Session audit trail** — Every agent session is logged with timestamps and key decisions
-- **Zero dependencies** — Pure Markdown + YAML protocol, works with any tool
+- **Conflict detection** — Warns if another agent modified `HANDOFF.md` while you were working
+- **Auto-progress tracking** — Automatically checks off tasks when their output files are modified
+- **Build-state awareness** — Records whether the last agent left a clean or broken build
+- **Session audit trail** — Every agent session is logged with timestamps and decisions
+- **Zero lock-in** — Pure Markdown + YAML protocol. No proprietary format, no vendor lock-in
 
-## Protocol
+---
 
-The full protocol specification is in [`skills/ai-sync-protocol/SKILL.md`](skills/ai-sync-protocol/SKILL.md). Key rules:
+## Also Available As
 
-1. **Follow the plan** — No unplanned features or refactors
-2. **Don't repeat work** — Check `PROGRESS.md` first
-3. **Be specific in handoffs** — Actionable next steps, not vague summaries
-4. **Run verification** — Build and typecheck before stopping
-5. **Document decisions** — The next agent has zero context
+| Package | Description | Install |
+|---------|-------------|---------|
+| [`@oreolion/ai-sync`](https://www.npmjs.com/package/@oreolion/ai-sync) | CLI (this package) | `npm install -g @oreolion/ai-sync` |
+| `@oreolion/ai-sync-mcp` | MCP server for MCP-native tools | See [`packages/mcp-server/`](packages/mcp-server/) |
+| `ai-sync` (VS Code) | VS Code extension with sidebar UI | See [`packages/vscode-extension/`](packages/vscode-extension/) |
+| `ai-sync-action` | GitHub Action for CI/CD | See [`packages/github-action/`](packages/github-action/) |
+| `@oreolion/ai-sync-remote` | Cloudflare Workers API for teams | See [`packages/remote-sync/`](packages/remote-sync/) |
+| `@oreolion/ai-sync-dashboard` | Next.js analytics dashboard | See [`packages/dashboard/`](packages/dashboard/) |
 
-## Plugin Structure
+---
+
+## Plugin Structure (for contributors)
 
 ```
 ai-sync-plugin/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest
-├── commands/
-│   ├── sync-init.md             # /sync-init
-│   ├── handoff.md               # /handoff
-│   ├── sync-status.md           # /sync-status
-│   ├── sync-resume.md           # /sync-resume
-│   ├── sync-diff.md             # /sync-diff
-│   ├── sync-adapter.md          # /sync-adapter
-│   ├── sync-transfer.md         # /sync-transfer
-│   └── sync-hooks.md            # /sync-hooks
+├── commands/                    # Slash command definitions
+│   ├── sync-init.md
+│   ├── handoff.md
+│   ├── sync-status.md
+│   ├── sync-resume.md
+│   ├── sync-diff.md
+│   ├── sync-adapter.md
+│   ├── sync-transfer.md
+│   └── sync-hooks.md
 ├── skills/
 │   └── ai-sync-protocol/
-│       └── SKILL.md             # Protocol spec (auto-loaded)
+│       └── SKILL.md             # Protocol spec (auto-loaded when .ai-sync/ exists)
 ├── hooks/
 │   └── hooks.json               # Session start/stop hooks
+├── packages/                    # Standalone packages (CLI, MCP, VS Code, etc.)
 ├── tests/
-│   └── validate-plugin.sh       # Plugin validation tests
-├── .github/
-│   └── ISSUE_TEMPLATE/          # Bug, feature, adapter request templates
+│   └── validate-plugin.sh
 ├── CONTRIBUTING.md
 ├── ROADMAP.md
-├── LICENSE
-└── CLAUDE.md
+└── LICENSE
 ```
 
-## Supported Tools
+## Protocol Specification
 
-| Tool | Adapter File | Integration Level |
-|------|-------------|-------------------|
-| Claude Code | Plugin + `CLAUDE.md` | Full (commands, hooks, skill, conflict detection) |
-| OpenAI Codex CLI | `AGENTS.md` | Read/write `.ai-sync/` |
-| Cursor | `.cursorrules` | Read/write `.ai-sync/` |
-| Cline | `.clinerules` | Read/write `.ai-sync/` |
-| Windsurf | `.windsurfrules` | Read/write `.ai-sync/` |
-| Aider | `.aider.conf.yml` | Read/write `.ai-sync/` |
-| OpenCode | `AGENTS.md` | Read/write `.ai-sync/` |
-| Continue.dev | `.continuerules` | Read/write `.ai-sync/` |
-| GitHub Copilot | `.github/copilot-instructions.md` | Read `.ai-sync/` |
-
-## Packages
-
-Beyond the Claude Code plugin, ai-sync ships as standalone tools:
-
-| Package | Description | Install |
-|---------|-------------|---------|
-| `@oreolion/ai-sync` | CLI tool — works with any AI agent | `npx @oreolion/ai-sync init` |
-| `@oreolion/ai-sync-mcp` | MCP server — structured tool access for MCP-native tools | See `packages/mcp-server/` |
-| `ai-sync` (VS Code) | VS Code extension with sidebar status + one-click handoff | See `packages/vscode-extension/` |
-| `ai-sync-action` | GitHub Action — auto-update `.ai-sync/` on PRs | See `packages/github-action/` |
-| `@oreolion/ai-sync-remote` | Cloudflare Workers API for team handoff | See `packages/remote-sync/` |
-| `@oreolion/ai-sync-dashboard` | Next.js dashboard for sync analytics | See `packages/dashboard/` |
+The full protocol spec is in [`skills/ai-sync-protocol/SKILL.md`](skills/ai-sync-protocol/SKILL.md). This defines the exact format of `HANDOFF.md` (YAML frontmatter + sections), `PROGRESS.md` (phase headers + checklists), and session logs.
 
 ## Testing
 
@@ -180,15 +292,13 @@ Beyond the Claude Code plugin, ai-sync ships as standalone tools:
 bash tests/validate-plugin.sh
 ```
 
-Validates plugin structure, JSON files, command frontmatter, skill metadata, hooks, and cross-references.
-
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, how to add adapters, and the PR process.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the full development plan including npm package, MCP server, VS Code extension, and team sync features.
+See [ROADMAP.md](ROADMAP.md).
 
 ## License
 

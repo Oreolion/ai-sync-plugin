@@ -617,3 +617,146 @@ npm: npmjs.com/package/@oreolion/ai-sync
 MIT licensed. Free forever. PRs welcome.
 
 If you use multiple AI coding tools and have ever lost context switching between them, give it a try. Would love your feedback.
+
+---
+
+## X/Twitter — Update Post: v1.1 "Install It Everywhere" (March 24, 2026)
+
+### Thread Version
+
+#### Tweet 1 (Hook)
+
+ai-sync just got a major clarity upgrade.
+
+The #1 question since launch: "I ran npm install but nothing shows up in Claude Code — what gives?"
+
+We completely rewrote the docs and onboarding. Here's the thing nobody told you about using multiple AI agents together:
+
+There are TWO ways to use ai-sync. You probably need both.
+
+#### Tweet 2 (The Two Paths)
+
+2/ ai-sync ships as two separate things that work together:
+
+CLI (terminal):
+npm install -g @oreolion/ai-sync
+ai-sync init
+ai-sync handoff
+
+Claude Code Plugin (slash commands):
+claude plugin add Oreolion/ai-sync
+/sync-init
+/handoff
+/sync-resume
+
+The npm package gives you a terminal command. The plugin gives you slash commands inside Claude Code. They're separate installs.
+
+#### Tweet 3 (Why Both)
+
+3/ Why install both?
+
+Use the CLI when working with Cursor, Codex, Aider, Cline, Windsurf — any tool. It runs from any terminal.
+
+Use the plugin when working inside Claude Code. You get:
+- /slash commands
+- Auto-context loading on session start
+- Save reminders when you stop
+- Conflict detection built in
+
+One for the terminal. One for Claude Code. Both write to the same .ai-sync/ directory.
+
+#### Tweet 4 (The Workflow)
+
+4/ Here's the actual workflow people are using:
+
+Claude Code hits rate limit
+/handoff (saves state)
+Open Cursor
+Cursor reads .cursorrules -> reads .ai-sync/HANDOFF.md
+Cursor knows everything: what was done, what's next, build status
+Work in Cursor
+ai-sync handoff (from terminal)
+Back to Claude Code
+/sync-resume (loads full context)
+
+No re-explaining. No lost progress. Zero friction.
+
+#### Tweet 5 (What Changed)
+
+5/ What's new in this update:
+
+- README completely rewritten for clarity
+- Clear "Quick Start (2 minutes)" section with 3 options
+- Side-by-side CLI vs Plugin comparison table
+- Real workflow examples with actual terminal commands
+- npm README updated so the npm page finally makes sense
+- Direct answer to "why doesn't npm install show up in Claude Code"
+
+If you bounced off the docs before, try again. They're actually readable now.
+
+#### Tweet 6 (CTA)
+
+6/ Get started:
+
+Terminal (any AI tool):
+npm install -g @oreolion/ai-sync
+cd your-project
+ai-sync init
+
+Claude Code (slash commands):
+claude plugin add Oreolion/ai-sync
+
+Best experience — install both:
+npm install -g @oreolion/ai-sync
+claude plugin add Oreolion/ai-sync
+
+GitHub: github.com/Oreolion/ai-sync
+npm: npmjs.com/package/@oreolion/ai-sync
+
+MIT licensed. Free forever.
+
+cc @AnthropicAI @cursor_ai @OpenAI @windsurf_ai @GitHubCopilot
+
+---
+
+### Single Post Version (Plain Text)
+
+ai-sync just got a major docs rewrite.
+
+The #1 question since launch: "I ran npm install -g @oreolion/ai-sync but I don't see any commands in Claude Code."
+
+Here's the answer: ai-sync ships as two things that work together.
+
+1. CLI (for any AI tool, runs in your terminal):
+   npm install -g @oreolion/ai-sync
+   ai-sync init / ai-sync handoff / ai-sync status
+
+2. Claude Code Plugin (adds /slash commands inside Claude Code):
+   claude plugin add Oreolion/ai-sync
+   /sync-init / /handoff / /sync-resume
+
+The npm package puts "ai-sync" in your PATH. Claude Code doesn't scan your global npm packages for plugins — that's a separate system.
+
+Install both for the full experience.
+
+The workflow:
+
+Working in Claude Code -> /handoff -> switch to Cursor -> Cursor reads .ai-sync/HANDOFF.md automatically -> work in Cursor -> ai-sync handoff (terminal) -> back to Claude Code -> /sync-resume -> picks up exactly where Cursor left off.
+
+What else changed:
+- README rewritten from scratch with clear Quick Start guide
+- Side-by-side comparison: CLI vs Plugin (what each does, when to use which)
+- Real workflow examples with actual terminal sessions
+- npm package README now explains everything on the npm page itself
+- 9 AI tools supported: Claude Code, Cursor, Codex, Cline, Windsurf, Aider, Copilot, Continue.dev, OpenCode
+
+If you tried ai-sync before and got confused by the setup — the docs are actually clear now. Give it another look.
+
+npm install -g @oreolion/ai-sync
+claude plugin add Oreolion/ai-sync
+
+GitHub: github.com/Oreolion/ai-sync
+
+MIT licensed. Free forever.
+
+cc @AnthropicAI @cursor_ai @OpenAI @windsurf_ai @GitHubCopilot @continuedev @paulgauthier

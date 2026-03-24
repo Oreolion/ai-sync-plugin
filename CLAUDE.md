@@ -68,3 +68,15 @@ PROGRESS.md uses `## Phase N: Name — COMPLETE|IN PROGRESS|PENDING` headers wit
 - All protocol file formats are defined in `skills/ai-sync-protocol/SKILL.md` — keep that as the single source of truth
 - Adapter template content is defined in `commands/sync-adapter.md` — update there, not in sync-init.md
 - After making changes, run `bash tests/validate-plugin.sh` to verify plugin integrity
+
+
+### when trying to install globally
+$ npm install -g @oreolion/ai-sync
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 54 packages in 13s
+
+14 packages are looking for funding
+  run `npm fund` for details
+
+- create and give clear step by step guide on how to install ai-sync globally and how to use it with claude code or other coding agents, what next after installing and initializing, why it is not visible within claude code and how to do that, and its workflow
