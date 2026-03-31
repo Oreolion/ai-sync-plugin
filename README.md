@@ -39,24 +39,52 @@ ai-sync status
 
 ### Option B: Claude Code Plugin (adds /slash commands)
 
-```bash
-# Install the plugin
-claude plugin add Oreolion/ai-sync
+The plugin gives you `/slash commands` inside Claude Code sessions — auto-loading context on start, reminders to save on stop, and interactive handoff.
 
-# Now inside Claude Code, you get slash commands:
-# /sync-init    — bootstrap .ai-sync/
-# /handoff      — save state before switching
-# /sync-resume  — load context and continue
-# /sync-status  — view progress
+**How to load the plugin:**
+
+```bash
+# Option 1: Per-session (load from local clone)
+git clone https://github.com/oreolion/ai-sync-plugin.git
+claude --plugin-dir /path/to/ai-sync-plugin
+
+# Option 2: Per-session (load from npm global install location)
+npm install -g @oreolion/ai-sync
+claude --plugin-dir "$(npm root -g)/@oreolion/ai-sync"
+
+# Option 3: Permanent install (when available in a marketplace)
+# claude plugin install ai-sync@<marketplace-name>
 ```
+
+Once loaded, you get slash commands inside Claude Code:
+```
+/sync-init    — bootstrap .ai-sync/
+/handoff      — save state before switching
+/sync-resume  — load context and continue
+/sync-status  — view progress
+/sync-diff    — show changes since last handoff
+/sync-adapter — generate adapter for a specific tool
+```
+
+> **Note:** `--plugin-dir` loads the plugin for that session only. You need to include it each time you start Claude Code, or create a shell alias (see below).
 
 ### Option C: Use both (recommended)
 
-Install the CLI globally **and** add the Claude Code plugin. Use `/slash commands` when inside Claude Code, use `ai-sync` from the terminal when working with other tools.
+Install the CLI globally **and** load the Claude Code plugin. Use `/slash commands` when inside Claude Code, use `ai-sync` from the terminal when working with other tools.
 
 ```bash
-npm install -g @oreolion/ai-sync       # CLI for any tool
-claude plugin add Oreolion/ai-sync      # Plugin for Claude Code
+npm install -g @oreolion/ai-sync          # CLI for any tool
+claude --plugin-dir /path/to/ai-sync-plugin  # Plugin for Claude Code
+```
+
+**Pro tip — create a shell alias so you don't have to type the path every time:**
+
+```bash
+# Add to your ~/.bashrc, ~/.zshrc, or ~/.bash_profile:
+alias claude-sync='claude --plugin-dir /path/to/ai-sync-plugin'
+
+# Now just run:
+claude-sync
 ```
 
 ---
@@ -67,16 +95,20 @@ These are **two separate things** that work together:
 
 | | CLI (`@oreolion/ai-sync`) | Claude Code Plugin |
 |---|---|---|
-| **Install** | `npm install -g @oreolion/ai-sync` | `claude plugin add Oreolion/ai-sync` |
+| **Install** | `npm install -g @oreolion/ai-sync` | `claude --plugin-dir /path/to/ai-sync-plugin` |
 | **How to use** | `ai-sync init`, `ai-sync handoff` | `/sync-init`, `/handoff` |
 | **Works with** | Any AI tool, any terminal | Claude Code only |
 | **Auto-loads context** | No | Yes (on session start) |
 | **Reminds you to save** | No | Yes (on session stop) |
 | **Slash commands** | No | Yes |
 
-**Common question**: "I ran `npm install -g @oreolion/ai-sync` but I don't see any commands in Claude Code."
+**Common questions:**
 
-That's expected. The npm package installs a terminal CLI (`ai-sync`). Claude Code doesn't scan your global npm packages for plugins. To get slash commands inside Claude Code, you also need `claude plugin add Oreolion/ai-sync`.
+**"I ran `npm install -g @oreolion/ai-sync` but I don't see any commands in Claude Code."**
+That's expected. The npm package installs a **terminal CLI** (`ai-sync`). Claude Code doesn't scan your global npm packages for plugins. To get slash commands inside Claude Code, you need to load the plugin with `claude --plugin-dir`.
+
+**"Do I have to pass `--plugin-dir` every time?"**
+Yes, for now. The `--plugin-dir` flag loads the plugin for that session only. Create a shell alias (see above) to make it painless. Once ai-sync is accepted into a Claude Code plugin marketplace, you'll be able to install it permanently with `claude plugin install`.
 
 ---
 

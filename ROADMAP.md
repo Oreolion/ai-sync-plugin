@@ -154,9 +154,9 @@ npm publish --access public
 - [ ] Create GitHub repo: `Oreolion/ai-sync`
 - [ ] Push plugin code to repo
 - [x] Plugin manifest updated with full metadata, keywords, and categories
-- [ ] Test install: `claude plugin add Oreolion/ai-sync`
-- [ ] Submit PR to `anthropics/claude-plugins-official` (if official marketplace exists)
-- [ ] Alternative: users install via GitHub URL
+- [ ] Test install: `claude --plugin-dir /path/to/ai-sync-plugin`
+- [ ] Submit plugin to official marketplace via [submission form](https://clau.de/plugin-directory-submission)
+- [ ] Once accepted: users install permanently with `claude plugin install ai-sync@claude-plugins-official`
 
 ### Marketplace Listing
 - **Name**: ai-sync

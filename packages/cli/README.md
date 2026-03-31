@@ -96,15 +96,25 @@ ai-sync handoff
 
 ## Using with Claude Code
 
-This CLI works **alongside** the Claude Code plugin. For the best experience with Claude Code, also install the plugin:
+This CLI works **alongside** the Claude Code plugin. For the best experience with Claude Code, also load the plugin:
 
 ```bash
-claude plugin add Oreolion/ai-sync
+# Clone the plugin repo (one-time setup)
+git clone https://github.com/oreolion/ai-sync-plugin.git
+
+# Start Claude Code with the plugin loaded
+claude --plugin-dir /path/to/ai-sync-plugin
 ```
 
 This gives you `/slash commands` inside Claude Code (`/handoff`, `/sync-resume`, `/sync-status`, etc.) plus automatic context loading on session start and save reminders on stop.
 
-**Note**: `npm install -g @oreolion/ai-sync` installs the terminal CLI. It does NOT add commands to Claude Code. The npm package and the Claude Code plugin are separate — install both for the full experience.
+**Tip**: Create a shell alias so you don't have to type the path every time:
+```bash
+# Add to ~/.bashrc or ~/.zshrc:
+alias claude-sync='claude --plugin-dir /path/to/ai-sync-plugin'
+```
+
+**Note**: `npm install -g @oreolion/ai-sync` installs a terminal CLI (`ai-sync`). It does NOT add commands to Claude Code — Claude Code doesn't scan global npm packages for plugins. The `--plugin-dir` flag is how you load plugins from a local directory. Once ai-sync is accepted into a Claude Code plugin marketplace, you'll be able to install it permanently with `claude plugin install`.
 
 ## Links
 

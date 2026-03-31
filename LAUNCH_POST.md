@@ -145,7 +145,7 @@ Get started in 30 seconds:
 npx @oreolion/ai-sync init
 
 # As a Claude Code plugin
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 ```
 
 GitHub: github.com/Oreolion/ai-sync
@@ -303,7 +303,7 @@ If you use Claude Code alongside other tools (Codex, Cursor, Aider), you've prob
 - Session audit trail
 - Git hooks for auto-save on commit
 
-Install: `claude plugin add Oreolion/ai-sync`
+Install: `claude --plugin-dir /path/to/ai-sync-plugin`
 
 Or without Claude Code: `npx @oreolion/ai-sync init`
 
@@ -408,7 +408,7 @@ npx @oreolion/ai-sync init
 
 Or as a Claude Code plugin:
 ```bash
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 ```
 
 **GitHub:** github.com/Oreolion/ai-sync
@@ -525,7 +525,7 @@ Get started in 30 seconds:
 npx @oreolion/ai-sync init
 
 Or as a Claude Code plugin:
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 
 GitHub: github.com/Oreolion/ai-sync
 npm: npmjs.com/package/@oreolion/ai-sync
@@ -609,7 +609,7 @@ Any project, any tool:
 npx @oreolion/ai-sync init
 
 As a Claude Code plugin:
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 
 GitHub: github.com/Oreolion/ai-sync
 npm: npmjs.com/package/@oreolion/ai-sync
@@ -644,7 +644,7 @@ ai-sync init
 ai-sync handoff
 
 Claude Code Plugin (slash commands):
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 /sync-init
 /handoff
 /sync-resume
@@ -704,11 +704,11 @@ cd your-project
 ai-sync init
 
 Claude Code (slash commands):
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 
 Best experience — install both:
 npm install -g @oreolion/ai-sync
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 
 GitHub: github.com/Oreolion/ai-sync
 npm: npmjs.com/package/@oreolion/ai-sync
@@ -721,7 +721,7 @@ cc @AnthropicAI @cursor_ai @OpenAI @windsurf_ai @GitHubCopilot
 
 ### Single Post Version (Plain Text)
 
-ai-sync just got a major docs rewrite.
+ai-sync just got a update.
 
 The #1 question since launch: "I ran npm install -g @oreolion/ai-sync but I don't see any commands in Claude Code."
 
@@ -732,7 +732,7 @@ Here's the answer: ai-sync ships as two things that work together.
    ai-sync init / ai-sync handoff / ai-sync status
 
 2. Claude Code Plugin (adds /slash commands inside Claude Code):
-   claude plugin add Oreolion/ai-sync
+   claude --plugin-dir /path/to/ai-sync-plugin
    /sync-init / /handoff / /sync-resume
 
 The npm package puts "ai-sync" in your PATH. Claude Code doesn't scan your global npm packages for plugins — that's a separate system.
@@ -753,7 +753,7 @@ What else changed:
 If you tried ai-sync before and got confused by the setup — the docs are actually clear now. Give it another look.
 
 npm install -g @oreolion/ai-sync
-claude plugin add Oreolion/ai-sync
+claude --plugin-dir /path/to/ai-sync-plugin
 
 GitHub: github.com/Oreolion/ai-sync
 

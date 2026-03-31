@@ -97,12 +97,12 @@ export const CTA: React.FC = () => {
 
               {/* Line 2 */}
               <div style={{ marginBottom: 8, color: COLORS.grayDark }}>
-                # As a Claude Code plugin
+                # Load as Claude Code plugin
               </div>
               <div>
                 <span style={{ color: COLORS.green }}>$</span>{" "}
                 <span style={{ color: COLORS.white }}>
-                  {typewriter("claude plugin add Oreolion/ai-sync", frame, start + 55, 1.2)}
+                  {typewriter("claude --plugin-dir ./ai-sync-plugin", frame, start + 55, 1.2)}
                 </span>
                 {Math.floor(local * 0.08) % 2 === 0 && local > 55 && (
                   <span
